@@ -41,7 +41,7 @@ router.get('/', async (req, res) => {
             select: {
                 id: true,
                 title: true,
-                artist: true
+                artist: true,
             }
         });
         return res.json(singles);
@@ -116,21 +116,20 @@ router.post('/upload/track', audioUpload.single('track'), async (req, res) => {
     const body = req.body
     const filename = data.filename;
     const destination = data.destination;
-
+    const location = `../.${destination}/${filename}`
     try {
         const single =  await prisma.single.create({
             data: {
                 artist: body.artist,
                 title: body.title,
-                location: `../.${destination}/${filename}`
+                location: location
             }
         });
         
-
-        res.json({ message: 'audio uploaded and saved successfully', id: single.id});
+        console.log(`audio: ${filename} uploaded and saved successfully at ${location}`)
 }  catch (error) {
-    console.error('Error saving audio:', error);
-    res.status(500).json({ message: 'Failed to save audio' });
+    console.error('Error saving single audio:', error);
+    res.status(500).json({ message: `Failed to save audio at ${location}` });
   }
 });
 

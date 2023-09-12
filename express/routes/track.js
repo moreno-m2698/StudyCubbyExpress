@@ -107,6 +107,7 @@ router.post('/upload', upload.array('tracks'), async (req, res) => {
         for (let i = 0; i < arrayLength; i++) {
             const file = fileArray[i];
             const name = nameArray[i];
+            const location  =`../.${file.destination}${file.filename}`;
  
             const track = await prisma.track.create({
                 data: {
@@ -114,16 +115,20 @@ router.post('/upload', upload.array('tracks'), async (req, res) => {
                     index: i,
                     albumId: Number(albumID),
                     title: name,
-                    location: `../.${file.destination}${file.filename}`
+                    location: location
                 }
             });        
+            
+            console.log(`audio: ${name} uploaded and saved successfully at ${location}`)
         }
+
     } catch (error) {
         console.error('Error trying to upload track:', error);
+
         res.status(500).json({ message: 'Failed to save tracks' });
     }
 
-
+    console.error('Error saving track audio:', error);
     return res.status(200).json({message: 'Successfully obtained tracks'})
 
 
