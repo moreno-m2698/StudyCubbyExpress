@@ -87,6 +87,7 @@ router.get('/play/:id', async (req, res) => {
             location: true
         }
     });
+    console.log(`Here is the location for single id: ${get.id} of ${get.location}`)
     const filePathEP = get.location
     const filePath =  path.join(__dirname, filePathEP);
     return res.sendFile(filePath);

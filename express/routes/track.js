@@ -65,7 +65,7 @@ router.get('/:id', async (req, res) => {
 
 router.get('/play/:id', async (req, res) => {
 
-    const get = await prisma.track.findUnique({
+    const track = await prisma.track.findUnique({
         where: {
             id: Number(req.params.id)
         },
@@ -74,6 +74,7 @@ router.get('/play/:id', async (req, res) => {
         }
     });
     const filePathEP = get.location
+    console.log(`Here is the location for track id: ${track.id} of ${track.location}`)
     const filePath =  path.join(__dirname, filePathEP);
     return res.sendFile(filePath);
 });
@@ -108,7 +109,8 @@ router.post('/upload', upload.array('tracks'), async (req, res) => {
             const file = fileArray[i];
             const name = nameArray[i];
             const location  =`../.${file.destination}${file.filename}`;
- 
+            //destination = ./library/
+            
             const track = await prisma.track.create({
                 data: {
                     artist: artist,
