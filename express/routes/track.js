@@ -73,7 +73,7 @@ router.get('/play/:id', async (req, res) => {
             location: true
         }
     });
-    const filePathEP = get.location
+    const filePathEP = track.location
     console.log(`Here is the location for track id: ${track.id} of ${track.location}`)
     const filePath =  path.join(__dirname, filePathEP);
     return res.sendFile(filePath);
