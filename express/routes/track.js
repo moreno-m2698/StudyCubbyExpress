@@ -130,7 +130,7 @@ router.post('/upload', upload.array('tracks'), async (req, res) => {
         res.status(500).json({ message: 'Failed to save tracks' });
     }
 
-    console.error('Error saving track audio:', error);
+    
     return res.status(200).json({message: 'Successfully obtained tracks'})
 
 
