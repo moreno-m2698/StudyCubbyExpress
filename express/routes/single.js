@@ -128,6 +128,7 @@ router.post('/upload/track', audioUpload.single('track'), async (req, res) => {
         });
         
         console.log(`audio: ${filename} uploaded and saved successfully at ${location}`)
+        res.status(200).json({message: 'Uploaded audio successfully'})
 }  catch (error) {
     console.error('Error saving single audio:', error);
     res.status(500).json({ message: `Failed to save audio at ${location}` });
