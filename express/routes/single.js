@@ -11,8 +11,6 @@ const __dirname = dirname(__filename);
 const prisma = new PrismaClient();
 const router = express.Router();
 
-
-
 const audioStorage = multer.diskStorage({
     
     destination: function (req, file, cb) {
@@ -24,10 +22,8 @@ const audioStorage = multer.diskStorage({
 });
 
 const audioUpload = multer({ storage: audioStorage });
-
 const imageStorage = multer.memoryStorage();
 const imageUpload =  multer({storage: imageStorage});
-
 
 router.use(cors())
 
@@ -44,6 +40,7 @@ router.get('/', async (req, res) => {
                 artist: true,
             }
         });
+        console.log('Successfully retrieved singles')
         return res.json(singles);
     } catch (error) {
         console.error('Error getting singles:', error);
@@ -53,10 +50,7 @@ router.get('/', async (req, res) => {
 
 router.patch('/upload/image', imageUpload.single('cover'), async (req, res) => {
 
-    console.log("Currently handling images")
-    console.log(req.file)
     const imageBuffer = req.file.buffer
-    console.log("Here is the req.body", req.body)
     const id = req.body.id
     
     try {
@@ -69,7 +63,7 @@ router.patch('/upload/image', imageUpload.single('cover'), async (req, res) => {
                 image: imageBuffer
             }
         })
-        console.log("Finished handling images")
+        console.log(`Successfully updated image for ${single.title}`)
     res.status(200).json({message: 'Updated cover successfully'})
     } catch (error) {
         console.error('Error updating cover:', error);
@@ -79,7 +73,7 @@ router.patch('/upload/image', imageUpload.single('cover'), async (req, res) => {
 
 router.get('/play/:id', async (req, res) => {
 
-    const get = await prisma.single.findUnique({
+    const single = await prisma.single.findUnique({
         where: {
             id: Number(req.params.id)
         },
@@ -87,7 +81,7 @@ router.get('/play/:id', async (req, res) => {
             location: true
         }
     });
-    console.log(`Here is the location for single id: ${get.id} of ${get.location}`)
+    console.log(`Playing ${single.title}:${single.id} from ${get.location}`)
     const filePathEP = get.location
     const filePath =  path.join(__dirname, filePathEP);
     return res.sendFile(filePath);
@@ -103,7 +97,7 @@ router.get('/image/:id', async (req, res) => {
             image: true
         }
     });
-   
+    console.log(`Successfully retrieved image for ${single.title}`)
     const byteArray = single.image;
     res.set('Content-Type', 'image/png');
     return res.send(byteArray);
