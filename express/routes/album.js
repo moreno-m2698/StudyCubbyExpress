@@ -76,25 +76,25 @@ router.get('/tracks/:id', async ( req, res) => {
 })
 
 router.post('/upload', upload.single('cover'), async (req, res) => {
-    const imageBuffer = req.file.buffer
-    const title =  req.body.title
-    const artist = req.body.artist
+  const imageBuffer = req.file.buffer
+  const title =  req.body.title
+  const artist = req.body.artist
 
-    try {
-      const createdImage = await prisma.album.create({
-        data: { 
-          image: imageBuffer,
-          artist: artist,
-          title: title
-        },
-      });
-      console.log(`Successfully uploaded ${title}`)
-      res.json({ message: `Successfully uploaded ${title}` });
-    } catch (error) {
-      console.error('Error saving image:', error);
-      res.status(500).json({ message: 'Failed to save image' });
-    }
-    })
+  try {
+    const createdImage = await prisma.album.create({
+      data: { 
+        image: imageBuffer,
+        artist: artist,
+        title: title
+      },
+    });
+    console.log(`Successfully uploaded ${title}`)
+    res.json({ message: `Successfully uploaded ${title}` });
+  } catch (error) {
+    console.error('Error saving image:', error);
+    res.status(500).json({ message: 'Failed to save image' });
+  }
+})
 
 
 export { router } 
