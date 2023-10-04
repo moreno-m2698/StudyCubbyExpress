@@ -56,7 +56,7 @@ router.patch('/upload/image', imageUpload.single('cover'), async (req, res) => {
     console.log("Currently handling images")
     console.log(req.file)
     const imageBuffer = req.file.buffer
-    console.log(imageBuffer)
+    console.log("Here is the req.body", req.body)
     const id = req.body.id
     
     try {
@@ -128,7 +128,7 @@ router.post('/upload/track', audioUpload.single('track'), async (req, res) => {
         });
         
         console.log(`audio: ${filename} uploaded and saved successfully at ${location}`)
-        res.status(200).json({message: 'Uploaded audio successfully'})
+        res.status(200).json({message: 'Uploaded audio successfully', id: single.id})
 }  catch (error) {
     console.error('Error saving single audio:', error);
     res.status(500).json({ message: `Failed to save audio at ${location}` });
