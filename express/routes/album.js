@@ -69,7 +69,6 @@ router.get('/tracks/:id', async ( req, res) => {
       artist: true,
       index: true,
       albumId: true
-
   }
   });
   console.log(`Successfully retrieved tracks for album ID: ${req.params.id}`)
