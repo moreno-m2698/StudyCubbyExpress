@@ -58,7 +58,7 @@ router.patch('/upload/image', imageUpload.single('cover'), async (req, res) => {
     const imageBuffer = req.file.buffer
     console.log(imageBuffer)
     const id = req.body.id
-  
+    
     try {
 
         const single = await prisma.single.update({
@@ -73,7 +73,7 @@ router.patch('/upload/image', imageUpload.single('cover'), async (req, res) => {
     res.status(200).json({message: 'Updated cover successfully'})
     } catch (error) {
         console.error('Error updating cover:', error);
-        res.status(500).json({ message: 'Failed to update cover, artist: ' + artist + ' title: ' + title });
+        res.status(500).json({ message: 'Failed to update cover'});
     }
 });
 
