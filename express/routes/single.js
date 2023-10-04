@@ -81,7 +81,7 @@ router.get('/play/:id', async (req, res) => {
             location: true
         }
     });
-    console.log(`Playing ${single.title}:${single.id} from ${get.location}`)
+    console.log(`Playing ${single.title}:${single.id} from ${single.location}`)
     const filePathEP = get.location
     const filePath =  path.join(__dirname, filePathEP);
     return res.sendFile(filePath);

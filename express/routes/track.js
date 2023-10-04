@@ -42,6 +42,7 @@ router.get('/', async (req, res) => {
 
         }
     });
+    console.log('Successfully retrieved tracks')
     return res.json(tracks);
   
 });
@@ -60,6 +61,7 @@ router.get('/:id', async (req, res) => {
             albumId: true
         }
     });
+    console.log(`Successfully retrieved ${track.title}`)
     return res.json(track)
 });
 
@@ -74,13 +76,13 @@ router.get('/play/:id', async (req, res) => {
         }
     });
     const filePathEP = track.location
-    console.log(`Here is the location for track id: ${track.id} of ${track.location}`)
+    console.log(`Playing ${track.title}:${track.id} from ${track.location}`)
     const filePath =  path.join(__dirname, filePathEP);
     return res.sendFile(filePath);
 });
 
 
-
+//Move inner function out as its own function
 
 router.post('/upload', upload.array('tracks'), async (req, res) => {
     const fileArray = req.files;
