@@ -19,31 +19,27 @@ router.use(cors());
 
 router.get('/', async (req, res) => {
     
-    try {
-      const data = await prisma.album.findMany( 
-        { orderBy:{
-            id: 'asc'
-          },
-          select: {
-            id: true,
-            title: true,
-            artist: true
-          }
+  try {
+    const data = await prisma.album.findMany( 
+      { orderBy:{
+          id: 'asc'
+        },
+        select: {
+          id: true,
+          title: true,
+          artist: true
         }
-      );
-  
-      return res.json(data);
-    } catch (error) {
-      console.error('Error getting albums:', error);
-      res.status(500).json({ message: 'Failed to get albums' });
-    }
-
-
-
+      }
+    );
+    console.log('Successfully retrieved albums')
+    return res.json(data);
+  } catch (error) {
+    console.error('Error getting albums:', error);
+    res.status(500).json({ message: 'Failed to get albums' });
+  }
 });
 
 router.get('/image/:id', async (req, res) => {
-
     const album = await prisma.album.findUnique({
         where: {
             id: Number(req.params.id)
@@ -53,6 +49,7 @@ router.get('/image/:id', async (req, res) => {
         }
     });
 
+    console.log(`Successfully retrieved image for ${album.title}`)
     const byteArray = album.image;
     res.set('Content-Type', 'image/png');
     return res.send(byteArray);
@@ -75,6 +72,7 @@ router.get('/tracks/:id', async ( req, res) => {
 
   }
   });
+  console.log(`Successfully retrieved tracks for album ID: ${req.params.id}`)
   return res.json(tracks);
 })
 
@@ -84,19 +82,19 @@ router.post('/upload', upload.single('cover'), async (req, res) => {
     const artist = req.body.artist
 
     try {
-        const createdImage = await prisma.album.create({
-          data: { 
-            image: imageBuffer,
-            artist: artist,
-            title: title
-          },
-        });
-    
-        res.json({ message: 'Image uploaded and saved successfully' });
-      }  catch (error) {
-        console.error('Error saving image:', error);
-        res.status(500).json({ message: 'Failed to save image' });
-      }
+      const createdImage = await prisma.album.create({
+        data: { 
+          image: imageBuffer,
+          artist: artist,
+          title: title
+        },
+      });
+      console.log(`Successfully uploaded ${title}`)
+      res.json({ message: `Successfully uploaded ${title}` });
+    } catch (error) {
+      console.error('Error saving image:', error);
+      res.status(500).json({ message: 'Failed to save image' });
+    }
     })
 
 
