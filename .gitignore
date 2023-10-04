@@ -5,3 +5,4 @@ library
 prismaMigrationHistory
 prisma/migrations
 .env.dev
+.env.prod
