@@ -45,7 +45,8 @@ router.get('/image/:id', async (req, res) => {
             id: Number(req.params.id)
         },
         select: {
-          image: true
+          image: true,
+          title: true
         }
     });
 

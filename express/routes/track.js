@@ -72,7 +72,9 @@ router.get('/play/:id', async (req, res) => {
             id: Number(req.params.id)
         },
         select: {
-            location: true
+            location: true,
+            id: true,
+            title: true
         }
     });
     const filePathEP = track.location

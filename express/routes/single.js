@@ -78,7 +78,9 @@ router.get('/play/:id', async (req, res) => {
             id: Number(req.params.id)
         },
         select: {
-            location: true
+            location: true,
+            title: true,
+            id: true
         }
     });
     console.log(`Playing ${single.title}:${single.id} from ${single.location}`)
